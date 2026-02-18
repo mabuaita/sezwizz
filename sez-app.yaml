@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sezapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sezapp
+  template:
+    metadata:
+      labels:
+        app: sezapp
+    spec:
+      containers:
+      - name: sezapp
+        image: mabuaita/ci:sezz_appv1
+        ports:
+        - containerPort: 3777
+        envFrom:
+        - secretRef:
+            name: sez-app
+      imagePullSecrets: # Reference the secret here
+      - name: regcred
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sezapp
+spec:
+  ports:
+  - port: 80
+    targetPort: 3777
+    protocol: TCP
+  selector:
+    app: sezapp

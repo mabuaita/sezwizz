@@ -1,0 +1,10 @@
+prometheus-flask-exporter
+redis
+requests
+langchain_community
+google.genai
+Flask
+Flask-CORS
+generativeai
+python-dotenv
+pyowm

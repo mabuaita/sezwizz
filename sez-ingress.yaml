@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    #kubernetes.io/ingress.class: nginx
+    kubernetes.io/spec.ingressClassName: nginx
+  name: sezapp
+  namespace: default
+spec:
+  tls:
+  - secretName: sezapp-tls-prod
+    hosts:
+    - weather.sezwizz.xyz
+  rules:
+    - host: weather.sezwizz.xyz
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sezapp
+                port:
+                  number: 3777
