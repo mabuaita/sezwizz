@@ -8,3 +8,4 @@ Flask-CORS
 generativeai
 python-dotenv
 pyowm
+python-json-logger

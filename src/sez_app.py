@@ -1,4 +1,6 @@
 import os
+import logging
+from pythonjsonlogger import jsonlogger
 import requests
 from dotenv import load_dotenv
 from langchain_community.utilities import OpenWeatherMapAPIWrapper
@@ -7,8 +9,14 @@ from google.genai import types
 import redis, json
 from flask import Flask, jsonify
 from prometheus_flask_exporter import PrometheusMetrics
+from prometheus_client import Counter, Histogram, generate_latest
+import time
 
 redis_client = redis.StrictRedis(host='redis.sezwizz.xyz', port=6379, decode_responses=True)
+
+REQUEST_COUNT = Counter('http_requests_total', 'Total HTTP Requests', ['method', 'endpoint', 'status'])
+REQUEST_LATENCY = Histogram('http_request_duration_seconds', 'HTTP request latency in seconds', ['method', 'endpoint'])
+
 
 def check_cache(key):
     cached_data = redis_client.get(key)
@@ -85,8 +93,26 @@ def cityweather(city):
 app = Flask(__name__)
 metrics = PrometheusMetrics(app)
 
+@app.route('/metrics')
+def metrics():
+    return generate_latest()
+
+# Configure the logger
+handler = logging.StreamHandler()
+formatter = jsonlogger.JsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
+handler.setFormatter(formatter)
+
+# Clear default handlers and add the new one
+app.logger.handlers = []
+app.logger.addHandler(handler)
+app.logger.setLevel(logging.INFO)
+
 @app.route("/")
 def help():
+
+    # Log key-value pairs by passing a dictionary
+    app.logger.info({"message": "Request received", "method": "GET", "path": "/"})
+
     return "Please include '/weather/<city>' parameter....such as https://weather.sezwizz.xyz/weather/london"
 
 @app.route("/health", methods=["GET"])
@@ -97,10 +123,35 @@ def health_check():
 # for furture enhancement, we should introduce a geo-locator app to use current city by default
 
 @app.route('/weather/<city>')
+
 def weather_endpoint(city):
+
+    # Log key-value pairs by passing a dictionary
+    app.logger.info({"message": "Request received", "method": "GET", "path": "/"})
+
+
+    # In this endpoint we create two metrics: a Counter that tracks the total number of HTTP requests
+    # (with labels for method, endpoint, and status code), and a Histogram that measures request duration.
+
+    # The /metrics endpoint returns all metrics in Prometheus format using the generate_latest() function. 
+    # In the home route handler, the code measures how long it takes to process the request then records 
+    # that duration in the histogram using the .observe() method and increments the request counter using
+    # .inc(). The labels allow you to filter and aggregate metrics in your Prometheus queries.
+
+    # This simple instrumentation captures request counts and latencies, giving visibility into the service's
+    # performance.
+
+# Start timer
+    start_time = time.time()
     if not city:
         return jsonify({'error': 'City parameter is required'}), 400
     response = cityweather(city)
+
+    duration = time.time() - start_time
+    REQUEST_LATENCY.labels(method='GET', endpoint='/').observe(duration)
+    REQUEST_COUNT.labels(method='GET', endpoint='/', status=200).inc()
+
+    
     return response
 
 if __name__ == "__main__":
