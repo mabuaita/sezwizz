@@ -16,7 +16,7 @@ All that's needed is to clone this repository.
 
 # Features
 
-- Renders weather information by city, example: https://weather.sezwizz.xyz/wearther/paris. 
+- Renders weather information by city, example: https://weather.sezwizz.xyz/weather/paris. 
 - Caches the query for 30 minutes, refresh the query, you will notice the second response is jesonified, because it was retrived from redis.
 - Limits each user to 30 queries per hour, 200 per day.
 - Instrumented to render metrics for prometheus to scape, https://weather.sezwizz.xyz/metrics.
