@@ -1,11 +1,13 @@
+========================================================================================
+
 # Alertmanager Routing
 
 route:
   receiver: default
-  group_by: [alertname, service]
-  group_wait: 30s
-  group_interval: 5m
-  repeat_interval: 4h
+  group-by: [alertname, service]
+  group-wait: 30s
+  group-interval: 5m
+  repeat-interval: 4h
   routes:
     # Critical production alerts page immediately
     - match:
@@ -23,24 +25,23 @@ route:
     - match:
         severity: warning
       receiver: ticketing-system
-      group_wait: 10m
+      group-wait: 10m
 
 receivers:
   - name: default
-    slack_configs:
+    slack-configs:
       - channel: '#alerts'
 
   - name: pagerduty
-    pagerduty_configs:
-      - service_key: 'your-pagerduty-key'
+    pagerduty-configs:
+      - service-key: 'your-pagerduty-key'
 
   - name: slack-critical
-    slack_configs:
+    slack-configs:
       - channel: '#incidents'
 
   - name: ticketing-system
-    webhook_configs:
+    webhook-configs:
       - url: 'https://tickets.example.com/webhook'
 
-
-[Learn more about creating GitLab projects.](https://docs.gitlab.com/ee/gitlab-basics/create-project.html)
+============================================================================================
