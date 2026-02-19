@@ -150,6 +150,10 @@ def weather_endpoint(city):
     duration = time.time() - start_time
     REQUEST_LATENCY.labels(method='GET', endpoint='/').observe(duration)
     REQUEST_COUNT.labels(method='GET', endpoint='/', status=200).inc()
+    REQUEST_COUNT.labels(method='GET', endpoint='/', status=400).inc()
+    REQUEST_COUNT.labels(method='GET', endpoint='/', status=404).inc()
+    REQUEST_COUNT.labels(method='GET', endpoint='/', status=500).inc()
+    REQUEST_COUNT.labels(method='GET', endpoint='/', status=503).inc()
 
     
     return response
