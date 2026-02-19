@@ -6,7 +6,7 @@ This is a freiendly weather map app that renders weather information by city. It
 
 **Prerequisites**
 
-You need an api key from openweathermap, it's free unless you exceed the quota.
+You need an api key from openweathermap, it's free unless you exceed the quota. Store the key in the ".env" file, it gets consumed by the app.
 
 **Installation**
 
@@ -22,6 +22,17 @@ All that's needed is to clone this repository.
 - Instrumented to render metrics for prometheus to scape, https://weather.sezwizz.xyz/metrics.
 - Health checker, https://weather.sezwizz.xyz/health.
 - Log collection via Loki, uses structured logging (key/value pairs) for better usability: formatter = jsonlogger.JsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
+
+# Roadmap
+
+- Enable Genai be default, right now it's coded but disabled.
+- Implement Geo-location to render user current city by default.
+- Implement more advanced configuration management, using tiered service levels, allowing for more frequent promethues scraping and tighter alerts threshold for higher level applications.
+
+# Availability
+
+- The app runs on a k8s bare-metal cluster, can increase the number of replicas.
+- Istio is enabled for better recovery.
 
 ========================================================================================
 
