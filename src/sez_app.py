@@ -11,6 +11,8 @@ from flask import Flask, jsonify
 from prometheus_flask_exporter import PrometheusMetrics
 from prometheus_client import Counter, Histogram, generate_latest
 import time
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 redis_client = redis.StrictRedis(host='redis.sezwizz.xyz', port=6379, decode_responses=True)
 
@@ -119,12 +121,20 @@ def help():
 def health_check():
     return jsonify({"status": "healthy"}), 200
 
+@app.route('/favicon.ico')
+def favicon():
+    pass
+
 @app.route('/weather', defaults={'city': None})
 # for furture enhancement, we should introduce a geo-locator app to use current city by default
 
 @app.route('/weather/<city>')
 
+# we limit each user to 30 queries per hour, 200 per day
+
 def weather_endpoint(city):
+
+    limiter = Limiter( application, key_func=get_remote_address, default_limits=["200 per day", "30 per hour"])
 
     # Log key-value pairs by passing a dictionary
     app.logger.info({"message": "Request received", "method": "GET", "path": "/"})

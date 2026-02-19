@@ -10,17 +10,18 @@ You need an api key from openweathermap, it's free unless you exceed the quota.
 
 **Installation**
 
-This app can be run be run in a container or locally, a requirements.txt file is included. If you run it in you dev environment make sure you activate your venv  virtual environment.
+This app can be run be run in a container or locally, a requirements.txt file is included. If you run it in your dev environment make sure you activate your venv  virtual environment.
 
 All that's needed is to clone this repository.
 
 # Features
 
-
-
-
-
-
+- Renders weather information by city, example: https://weather.sezwizz.xyz/wearther/paris. 
+- Caches the query for 30 minutes, refresh the query, you will notice the second response is jesonified, because it was retrived from redis.
+- Limits each user to 30 queries per hour, 200 per day.
+- Instrumented to render metrics for prometheus to scape, https://weather.sezwizz.xyz/metrics.
+- Health checker, https://weather.sezwizz.xyz/health.
+- Log collection via Loki, uses structured logging (key/value pairs) for better usability: formatter = jsonlogger.JsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
 
 ========================================================================================
 
