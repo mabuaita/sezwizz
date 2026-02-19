@@ -11,10 +11,3 @@ spec:
   commonName: weather.sezwizz.xyz
   dnsNames:
   - weather.sezwizz.xyz
-    #  acme:
-    #    config:
-      #    - http01:
-      #        ingress: myapp
-          #      domains:
-        #    - myapp.newtech.academy
-  #    #- www.myapp.newtech.academy
