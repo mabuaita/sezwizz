@@ -1,8 +1,46 @@
-# Sample GitLab Project
+# Alertmanager Routing
 
-This sample project shows how a project in GitLab looks for demonstration purposes. It contains issues, merge requests and Markdown files in many branches,
-named and filled with lorem ipsum.
+route:
+  receiver: default
+  group_by: [alertname, service]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  routes:
+    # Critical production alerts page immediately
+    - match:
+        severity: critical
+        environment: production
+      receiver: pagerduty
+      continue: true
 
-You can look around to get an idea how to structure your project and, when done, you can safely delete this project.
+    # Also send to Slack for visibility
+    - match:
+        severity: critical
+      receiver: slack-critical
+
+    # Warnings create tickets
+    - match:
+        severity: warning
+      receiver: ticketing-system
+      group_wait: 10m
+
+receivers:
+  - name: default
+    slack_configs:
+      - channel: '#alerts'
+
+  - name: pagerduty
+    pagerduty_configs:
+      - service_key: 'your-pagerduty-key'
+
+  - name: slack-critical
+    slack_configs:
+      - channel: '#incidents'
+
+  - name: ticketing-system
+    webhook_configs:
+      - url: 'https://tickets.example.com/webhook'
+
 
 [Learn more about creating GitLab projects.](https://docs.gitlab.com/ee/gitlab-basics/create-project.html)
