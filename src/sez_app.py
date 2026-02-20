@@ -125,6 +125,13 @@ def health_check():
 def favicon():
     pass
 
+@app.route("/shutdown")
+def shutdown():
+    # Send SIGINT to the current process to simulate Ctrl+C
+    os.kill(PID, signal.SIGINT)
+    return "Server shutting down...", 200
+
+
 @app.route('/weather', defaults={'city': None})
 # for furture enhancement, we should introduce a geo-locator app to use current city by default
 
