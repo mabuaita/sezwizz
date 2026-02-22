@@ -157,12 +157,12 @@ and increments the request counter using .inc(). The labels allow you to filter 
 
 From above we're able to calculate Latency, Requests per Second (Rate), Error rates, and Irate:
 # Endpoint Metric Definition
-| Metric.       | Description                                                                   |
-| ------------- | ----------------------------------------------------------------------------- |
-|  Latency      |    The median 50th (P50) and 99th percentile (P99) round-trip latency times.  |    
-|  Errors/Sec   |    The number of errors (4xx and 5xx) processed per second.                   |
-|  Rate()       |    The number of requests processed per second.                               |
-|  Irate()      |    Instantaneous per-second rate of change.                                   |
+| Metric.       | Description                                                                                                    |
+| ------------- | -------------------------------------------------------------------------------------------------------------- |
+|  Latency      |    The median 50th (P50) and 99th percentile (P99) round-trip latency times.                                   |    
+|  Errors/Sec   |    The number of errors (4xx and 5xx) processed per second. 5xx garners higher attension over 4xx, for good SLO|
+|  Rate()       |    The number of requests processed per second.                                                                |
+|  Irate()      |    Instantaneous per-second rate of change.                                                                    |
 
 * rate() averages no. of request over the scraping period, giving a trend that helps plan capacity.
 ** irate() is burstable in nature and is instrumental in expaling what is happening in the moment.
