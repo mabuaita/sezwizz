@@ -21,6 +21,7 @@ All that's needed is to clone this repository.
 - Limits each user to 30 queries per hour, 200 per day.
 - Instrumented to render metrics for prometheus to scape, https://weather.sezwizz.xyz/metrics.
 - Health checker, https://weather.sezwizz.xyz/health.
+- Graceful shutdown, https://weather.sezwizz.xyz/shutdown.
 - Log collection via Loki, uses structured logging (key/value pairs) for better usability: formatter = jsonlogger.JsonFormatter('%(timestamp)s %(level)s %(name)s %(message)s')
 
 # Roadmap
@@ -129,7 +130,7 @@ All that's needed is to clone this repository.
       - url: https://tickets.example.com/webhook
   .
 
-      **--------------------------------------------------------------------------------------------------------------------**
+      **----------------------------------------------------------------------------------------------------------**
 
 # Observability
 
