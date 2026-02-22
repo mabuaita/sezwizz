@@ -170,12 +170,8 @@ From above we're able to calculate Latency, Requests per Second (Rate), Error ra
 **Other things we'd like to monitor**
    
 | Metric          | Description |
-| --------------- | -----------------------------------------------------------------------------  |
-| Service Uptime  | We don't just monitor SLI but SLO monitoring entails we monitor service uptime,|
-|                 | if business requires 99.995 uptime, we adhere to the metric.                   |
-| CPU Usage %     | Average CPU usage.                                                             |
-| Memory Usage %. | Average memory usage.                                                          |
-| Concurrency.    | The maximum number of parallel requests that the system can handle. Provisioned|
-|                 | concurrency dynamically adjusts within the minimum and maximum limits of the   |   
-|                 | compute scale-out range, varying in response to incoming traffic.              |
-
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------  |
+| Service Uptime  | We don't just monitor SLI but SLO monitoring entails we monitor service uptime, if business requires 99.995 uptime, we adhere to the metric.|
+| CPU Usage %     | Average CPU usage.                                                                                                                          |
+| Memory Usage %. | Average memory usage.                                                                                                                       |
+| Concurrency.    | The maximum number of parallel requests that the system can handle. Provisioned concurrency dynamically adjusts within the minimum and maximum limits of the compute scale-out range, varying in response to incoming traffic.|
