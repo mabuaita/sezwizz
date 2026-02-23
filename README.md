@@ -58,7 +58,7 @@ All that's needed is to clone this repository.
      - job_name: 'api-gateway'
       static_configs:
       - targets:
-          - 'weather.sezwizz.xyz:8080'
+          - 'https://weather.sezwizz.xyz'
         labels:
           service: 'weather-app'
           tier: 'frontend'
@@ -70,18 +70,6 @@ All that's needed is to clone this repository.
         labels:
           database: 'redis'
 
-  Infrastructure monitoring
-  
-  - job_name: 'node'
-    static_configs:
-      - targets:
-          - 'server1.prod.internal:9100'
-          - 'server2.prod.internal:9100'
-          - 'server3.prod.internal:9100'
-          - 'server4.prod.internal:9100'
-        labels:
-          datacenter: 'us-east-1'
-  
   **---------------------------------------------------------------------------------------------------**
 
 # Alertmanager Routing
